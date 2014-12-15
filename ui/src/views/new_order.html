@@ -1,0 +1,15 @@
+<fs-form-for model="order"
+  class="form-horizontal">
+
+  <h3> New Order</h3>
+  <hr/>
+  <fs-input as="text" name="name" label="Name"></fs-input>
+  <fs-input as="text" name="email" label="Email"></fs-input>
+  <fs-input as="text" name="phone" label="Phone"></fs-input>
+  <hr/>
+  <fs-row label="">
+    <button ng-click="create()" class="btn btn-success">Order</button>
+  </fs-row>
+</fs-form-for>
+
+<pre>{{order | json}}</pre>
