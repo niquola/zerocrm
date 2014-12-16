@@ -1,0 +1,37 @@
+
+  <div class="row">
+    <div class="col-xs-8">
+<h3>
+<a class="btn btn-default" href="#/orders">&lt;</a>
+  Order <span>{{order.name}}</span>
+  <small>{{order.update | date}}</small>
+  </h3>
+
+  <hr/>
+
+  <b>name</b>
+  <span>{{order.name}}</span>
+  <br/>
+  <b>email</b>
+  <span>{{order.email}}</span>
+  <br/>
+
+  <hr/>
+
+  <button class="btn btn-success">Call</button>
+  <button class="btn btn-success">Email</button>
+  <button class="btn btn-danger">No contact</button>
+
+  </div>
+
+    <div class="col-xs-4">
+      <h3> Check List</h3>
+      <ul>
+        <li>Contact</li>
+        <li>Verify</li>
+        <li>Comment</li>
+        <li>Deliver</li>
+      </ul>
+    </div>
+  </div>
+

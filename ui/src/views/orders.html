@@ -1,5 +1,11 @@
 <h1>Orders</h1>
 
-<pre>
-{{data | json}}
-</pre>
+<table class="table">
+  <tr ng-repeat="o in orders">
+    <td>{{o.update | date }}</td>
+    <td><a href="#/orders/{{o.id}}">{{o.id}}</a></td>
+    <td>{{o.name}}</td>
+    <td>{{o.phone}}</td>
+    <td>{{o.email}}</td>
+  </tr>
+</table>

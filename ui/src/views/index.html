@@ -1,7 +1,13 @@
 <div class="well">
-  <h3>Zerocrm</h3>
+  <fs-form-for model="session">
+    <h3> Login into zerocrm</h3>
+    <hr/>
+    <fs-input as="text" name="login"></fs-input>
+    <fs-input as="password" name="password"></fs-input>
+    <hr/>
+    <fs-row label="">
+      <button class="btn btn-success" ng-click="signin()">Sigin</button>
+    </fs-row>
+  </fs-form-for>
 </div>
 
-<pre>
-{{data | json}}
-</pre>

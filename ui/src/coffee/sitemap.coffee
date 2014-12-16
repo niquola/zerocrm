@@ -10,6 +10,7 @@ buildSiteMap = (x)->
   x
 
 module.exports = {
+  user: []
   main: [
     {when: '/', name: 'index', label: 'Welcome', href: '#/'}
     {when: '/order/new', name: 'new_order', label: 'New order', href: '#/order/new'}

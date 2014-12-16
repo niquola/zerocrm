@@ -10,7 +10,6 @@ require('./data')
 strings =
   brand: 'Zerocrm'
 
-
 app.config ($routeProvider, $httpProvider) ->
   rp = $routeProvider
 
@@ -20,6 +19,11 @@ app.config ($routeProvider, $httpProvider) ->
     acc.when(x.when, x)
 
   rp = sitemap.main.reduce mkRoute, rp
+
+  rp.when '/orders/:id',
+    templateUrl: '/views/order.html'
+    name: 'orders'
+    controller: 'show_order_ctrl'
 
   rp.otherwise
     templateUrl: '/views/404.html'
@@ -31,11 +35,18 @@ activate = (name)->
     else
       delete x.active
 
-app.run ($rootScope, $location)->
+app.run ($rootScope, $location, $http)->
   $rootScope.strings = strings
   $rootScope.sitemap = sitemap
   $rootScope.$on  "$routeChangeStart", (event, next, current)->
     activate(next.name)
+
+  $http.get('/user')
+    .success (data)->
+      sitemap.user.push(label: data.login)
+      console.log(sitemap.user)
+    .error ()-> $location.path('/')
+
   $rootScope.$watch 'progress', (v)->
     return unless v && v.success
     $rootScope.loading = 'Loading'
@@ -49,18 +60,26 @@ app.run ($rootScope, $location)->
 
 window.app = app
 
-app.controller 'index_ctrl', ($scope, $http)->
-  $http.get('/data').success (data)->
-    $scope.data = data
+app.controller 'index_ctrl', ($rootScope, $scope, $http, $location)->
+  $scope.signin = ()->
+    $http.post('/signin', $scope.session)
+      .success (data)->
+        $rootScope.user = data
+        $location.path('/orders')
 
-app.controller 'new_order_ctrl', ($scope, Order)->
-  $scope.order = {
-    nested: {a: [1,2,3]}
-  }
+app.controller 'new_order_ctrl', ($scope, $location, Order)->
+  $scope.order = {}
 
   $scope.create = ()->
     Order.create($scope.order)
+      .success ()->
+        $location.path('/orders')
 
-app.controller 'orders_ctrl', ($scope, $http)->
-  $http.get('/data').success (data)->
-    $scope.data = data
+app.controller 'show_order_ctrl', ($scope, $routeParams, $location, Order)->
+  Order.find($routeParams.id)
+    .success (data)->
+      $scope.order = data
+
+app.controller 'orders_ctrl', ($scope, Order)->
+  Order.all().success (data)->
+    $scope.orders = data

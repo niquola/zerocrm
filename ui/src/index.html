@@ -36,10 +36,10 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li ng-repeat="item in ::sitemap.user">
-          <a href="{{::item.href}}">
-            <i ng-if="::item.icon" class="fa fa-{{::item.icon}}"></i>
-            {{::item.label}}
+        <li ng-repeat="item in sitemap.user">
+          <a href="{{item.href}}">
+            <i ng-if="item.icon" class="fa fa-{{item.icon}}"></i>
+            {{item.label}}
           </a>
         </li>
       </ul>

@@ -4,12 +4,18 @@
             [org.httpkit.server :as ohs]
             [hiccup.core :as hc]
             [zerocrm.ctrls :as zc]
+            [zerocrm.auth :as za]
             [zerocrm.json :as zj]
             [compojure.route :as route]))
 
 (defroutes app-routes
-  (GET  "/data"   [] #'zc/index)
-  (POST "/orders" [] #'zc/new-order)
+  (GET     "/data"     [] #'zc/index)
+  (POST    "/signin"   [] #'za/sign-in)
+  (GET     "/user"     [] #'za/user)
+  (DELETE  "/signout"     [] #'za/sign-out)
+  (GET     "/orders"      []  #'zc/list-orders)
+  (GET     "/orders/:id"  []  #'zc/get-order)
+  (POST    "/orders"   [] #'zc/new-order)
   (route/resources "/")
   (route/not-found "Not Found"))
 
@@ -21,6 +27,7 @@
 
 (def app
   (-> #'app-routes
+      (za/current-user-wrp)
       (json-request-wrp)
       (handler/site)))
 
@@ -31,7 +38,5 @@
 (comment
   (require '[vinyasa.pull :as vp])
   (vp/pull 'http-kit)
-  (vp/pull 'hiccup)
-  (vp/pull 'garden)
   (start)
   (stop))
